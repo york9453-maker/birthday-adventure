@@ -1,5 +1,9 @@
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
+const playerImage = new Image();
+playerImage.src = "./player.png";
+
+ctx.imageSmoothingEnabled = false;
 
 const dialogue = document.getElementById("dialogue");
 const speaker = document.getElementById("speaker");
@@ -199,6 +203,23 @@ function draw() {
   });
 
   characters.forEach(function (character) {
+  if (
+    character.glasses &&
+    playerImage.complete &&
+    playerImage.naturalWidth > 0
+  ) {
+    const height = 90;
+    const width =
+      height * playerImage.naturalWidth / playerImage.naturalHeight;
+
+    ctx.drawImage(
+      playerImage,
+      character.x - width / 2,
+      character.y - height,
+      width,
+      height
+    );
+  } else {
     drawCharacter(
       character.x,
       character.y,
@@ -206,7 +227,8 @@ function draw() {
       character.jeans,
       character.glasses
     );
-  });
+  }
+});
 
   ctx.font = "16px monospace";
   ctx.textAlign = "center";
