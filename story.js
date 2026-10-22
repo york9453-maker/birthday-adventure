@@ -625,7 +625,7 @@ export const conversations = {
       "HAPPY BIRTHDAY OMID! 🎂❤️ From coffee and coding, to bikepacking and koobideh, " +
       "to kayaking, climbing mountains, " +
       "and one day discovering Omid Land — I hope this year is full of adventures you love, " +
-      "lots of laughs, great coffee, exciting projects, beautiful places, and so many good memories. I am so grateful you are a part of my life " +
+      "lots of laughs, great coffee, exciting projects, beautiful places, and so many good memories. I am so grateful you are a part of my life. " +
       "Tavalodet mobarak, azizam, nafasam, jigaram, khoshteepam! Dooset daram ye donya ❤️",
     choices: [
       {

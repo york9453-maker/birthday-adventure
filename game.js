@@ -55,6 +55,9 @@ let foodChosen = false;
 let kayaking = false;
 let kayakProgress = 0;
 
+// NEW: remembers whether Omid flipped
+let kayakFlipCount = 0;
+
 let paragliding = false;
 let paraglideProgress = 0;
 
@@ -181,6 +184,9 @@ const actions = {
     kayaking = true;
     kayakProgress = 0;
 
+    // Start every kayaking adventure at zero flips.
+    kayakFlipCount = 0;
+
     closeDialogue();
   },
 
@@ -261,6 +267,15 @@ function showConversation(id) {
     button.textContent = choice.text;
 
     button.onclick = function () {
+
+      // NEW:
+      // If Omid chooses the existing story option
+      // that sends him to "kayakFlip",
+      // update the flip count to 1.
+      if (choice.next === "kayakFlip") {
+        kayakFlipCount = 1;
+      }
+
       if (choice.next) {
         showConversation(choice.next);
       } else if (
@@ -490,14 +505,45 @@ function label(text, x, y, color = "#25291f") {
 }
 
 function drawPerson(person, shirt) {
-  rectangle(person.x - 12, person.y - 20, 24, 20, "#403d38");
-  rectangle(person.x - 14, person.y - 44, 28, 26, shirt);
-  rectangle(person.x - 12, person.y - 66, 24, 22, "#dca574");
-  rectangle(person.x - 13, person.y - 69, 26, 9, "#171717");
+  rectangle(
+    person.x - 12,
+    person.y - 20,
+    24,
+    20,
+    "#403d38"
+  );
+
+  rectangle(
+    person.x - 14,
+    person.y - 44,
+    28,
+    26,
+    shirt
+  );
+
+  rectangle(
+    person.x - 12,
+    person.y - 66,
+    24,
+    22,
+    "#dca574"
+  );
+
+  rectangle(
+    person.x - 13,
+    person.y - 69,
+    26,
+    9,
+    "#171717"
+  );
 }
 
 function drawPlayer() {
-  drawPlayerAt(player.x, player.y, 90);
+  drawPlayerAt(
+    player.x,
+    player.y,
+    90
+  );
 }
 
 function drawPlayerAt(x, y, height = 90) {
@@ -518,7 +564,10 @@ function drawPlayerAt(x, y, height = 90) {
       height
     );
   } else {
-    drawPerson({ x, y }, "#657343");
+    drawPerson(
+      { x, y },
+      "#657343"
+    );
   }
 }
 
@@ -540,7 +589,10 @@ function drawAshley(x, y, height = 90) {
       height
     );
   } else {
-    drawPerson({ x, y }, "#c68e77");
+    drawPerson(
+      { x, y },
+      "#c68e77"
+    );
   }
 }
 
@@ -618,9 +670,12 @@ function drawBikeWithKayak(
   bikeColor,
   kayakColor
 ) {
-  drawBike(x, y, bikeColor);
+  drawBike(
+    x,
+    y,
+    bikeColor
+  );
 
-  // Rear rack
   rectangle(
     x - 35,
     y - 46,
@@ -629,8 +684,8 @@ function drawBikeWithKayak(
     "#25291f"
   );
 
-  // Sea kayak strapped horizontally
-  ctx.fillStyle = kayakColor;
+  ctx.fillStyle =
+    kayakColor;
 
   ctx.beginPath();
 
@@ -646,8 +701,8 @@ function drawBikeWithKayak(
 
   ctx.fill();
 
-  // Kayak cockpit
-  ctx.fillStyle = "#393d3c";
+  ctx.fillStyle =
+    "#393d3c";
 
   ctx.beginPath();
 
@@ -663,7 +718,6 @@ function drawBikeWithKayak(
 
   ctx.fill();
 
-  // Straps
   rectangle(
     x - 27,
     y - 73,
@@ -698,8 +752,14 @@ function drawMountain(
   ctx.beginPath();
 
   ctx.moveTo(x, y);
-  ctx.lineTo(x + width / 2, y - height);
-  ctx.lineTo(x + width, y);
+  ctx.lineTo(
+    x + width / 2,
+    y - height
+  );
+  ctx.lineTo(
+    x + width,
+    y
+  );
 
   ctx.closePath();
   ctx.fill();
@@ -729,7 +789,7 @@ function drawMountain(
 
 
 // =====================================================
-// KAYAK
+// KAYAK HELPERS
 // =====================================================
 
 function drawKayak(x, y, color) {
@@ -757,7 +817,9 @@ function drawKayak(x, y, color) {
     "#25291f"
   );
 
-  ctx.strokeStyle = "#e6d3a8";
+  ctx.strokeStyle =
+    "#e6d3a8";
+
   ctx.lineWidth = 4;
 
   ctx.beginPath();
@@ -776,9 +838,11 @@ function drawKayak(x, y, color) {
 }
 
 function drawWhale(x, waterY, jump) {
-  const y = waterY - jump;
+  const y =
+    waterY - jump;
 
-  ctx.fillStyle = "#50697a";
+  ctx.fillStyle =
+    "#50697a";
 
   ctx.beginPath();
 
@@ -839,7 +903,7 @@ function drawWhale(x, waterY, jump) {
 
 
 // =====================================================
-// GOATS
+// GOAT
 // =====================================================
 
 function drawGoat(x, y) {
@@ -875,7 +939,9 @@ function drawGoat(x, y) {
     "#403d38"
   );
 
-  ctx.strokeStyle = "#6d624f";
+  ctx.strokeStyle =
+    "#6d624f";
+
   ctx.lineWidth = 3;
 
   ctx.beginPath();
@@ -924,7 +990,9 @@ function drawParaglider(x, y, color) {
 
   ctx.stroke();
 
-  ctx.strokeStyle = "#403d38";
+  ctx.strokeStyle =
+    "#403d38";
+
   ctx.lineWidth = 2;
 
   ctx.beginPath();
@@ -1024,12 +1092,19 @@ function drawComputerDesk(x, y) {
 }
 
 function drawPlant(x, y, scale = 1) {
-  ctx.strokeStyle = "#355b37";
-  ctx.lineWidth = 4 * scale;
+  ctx.strokeStyle =
+    "#355b37";
+
+  ctx.lineWidth =
+    4 * scale;
 
   ctx.beginPath();
 
-  ctx.moveTo(x, y);
+  ctx.moveTo(
+    x,
+    y
+  );
+
   ctx.lineTo(
     x,
     y - 42 * scale
@@ -1037,7 +1112,8 @@ function drawPlant(x, y, scale = 1) {
 
   ctx.stroke();
 
-  ctx.fillStyle = "#4f7d4c";
+  ctx.fillStyle =
+    "#4f7d4c";
 
   const leaves = [
     [-14, -31],
@@ -1055,7 +1131,9 @@ function drawPlant(x, y, scale = 1) {
       y + leaf[1] * scale,
       12 * scale,
       6 * scale,
-      leaf[0] < 0 ? -0.45 : 0.45,
+      leaf[0] < 0
+        ? -0.45
+        : 0.45,
       0,
       Math.PI * 2
     );
@@ -1149,11 +1227,22 @@ function drawOutside() {
     stranger.y - 85
   );
 
-  if (player.y < stranger.y) {
+  if (
+    player.y <
+    stranger.y
+  ) {
     drawPlayer();
-    drawPerson(stranger, "#a7664e");
+
+    drawPerson(
+      stranger,
+      "#a7664e"
+    );
   } else {
-    drawPerson(stranger, "#a7664e");
+    drawPerson(
+      stranger,
+      "#a7664e"
+    );
+
     drawPlayer();
   }
 }
@@ -1382,7 +1471,9 @@ function drawForecast() {
       "#f5ecd7"
     );
 
-    ctx.strokeStyle = "#403d38";
+    ctx.strokeStyle =
+      "#403d38";
+
     ctx.lineWidth = 2;
 
     ctx.beginPath();
@@ -1603,7 +1694,9 @@ function drawMecInside() {
 
     ctx.stroke();
 
-    ctx.strokeStyle = "#e9bd70";
+    ctx.strokeStyle =
+      "#e9bd70";
+
     ctx.lineWidth = 3;
 
     ctx.strokeRect(
@@ -1632,7 +1725,10 @@ function drawMecInside() {
     "#c68e77"
   );
 
-  if (player.y < ashley.y) {
+  if (
+    player.y <
+    ashley.y
+  ) {
     drawPlayer();
   }
 
@@ -1660,7 +1756,10 @@ function drawMecInside() {
     "#c68e77"
   );
 
-  if (player.y >= ashley.y) {
+  if (
+    player.y >=
+    ashley.y
+  ) {
     drawPlayer();
   }
 }
@@ -1858,7 +1957,6 @@ function drawMountainRide() {
 // =====================================================
 
 function drawCoastLookout() {
-  // Sky
   rectangle(
     0,
     0,
@@ -1867,7 +1965,6 @@ function drawCoastLookout() {
     "#9dd5e2"
   );
 
-  // Distant mountains
   drawMountain(
     -40,
     240,
@@ -1892,7 +1989,6 @@ function drawCoastLookout() {
     "#82998a"
   );
 
-  // Ocean
   rectangle(
     0,
     235,
@@ -1915,7 +2011,6 @@ function drawCoastLookout() {
     );
   }
 
-  // Lookout ground
   rectangle(
     0,
     385,
@@ -1924,7 +2019,6 @@ function drawCoastLookout() {
     "#75835f"
   );
 
-  // Bikes + kayaks
   drawBikeWithKayak(
     245,
     410,
@@ -1939,7 +2033,6 @@ function drawCoastLookout() {
     "#718ea0"
   );
 
-  // Omid and Ashley sitting on bikes
   drawPlayerAt(
     245,
     378,
@@ -2114,8 +2207,10 @@ function drawKayakAdventure() {
     );
   }
 
+  // UPDATED:
+  // This now uses the actual flip count.
   label(
-    "OMID FLIP COUNT: 0 😎",
+    `OMID FLIP COUNT: ${kayakFlipCount} 😎`,
     315,
     425,
     "#f5ecd7"
@@ -2540,7 +2635,6 @@ function drawOmidHome() {
     320
   );
 
-  // Couch
   rectangle(
     170,
     300,
@@ -2593,7 +2687,6 @@ function drawOmidHome() {
     72
   );
 
-  // Present
   rectangle(
     410,
     270,
@@ -2640,7 +2733,8 @@ function drawBirthdayFinale() {
     "#f5ecd7"
   );
 
-  birthdaySparkles += 0.03;
+  birthdaySparkles +=
+    0.03;
 
   const icons = [
     "🎉",
@@ -2674,8 +2768,11 @@ function drawBirthdayFinale() {
       65 +
       (i * 67) % 360;
 
-    ctx.font = "24px sans-serif";
-    ctx.textAlign = "center";
+    ctx.font =
+      "24px sans-serif";
+
+    ctx.textAlign =
+      "center";
 
     ctx.fillText(
       icons[
@@ -2702,9 +2799,14 @@ function drawBirthdayFinale() {
     "#e9bd70"
   );
 
-  ctx.fillStyle = "#f5ecd7";
-  ctx.font = "bold 46px monospace";
-  ctx.textAlign = "center";
+  ctx.fillStyle =
+    "#f5ecd7";
+
+  ctx.font =
+    "bold 46px monospace";
+
+  ctx.textAlign =
+    "center";
 
   ctx.fillText(
     "OMID!",
@@ -2733,35 +2835,82 @@ function draw() {
     canvas.height
   );
 
-  if (location === "outside") {
+  if (
+    location === "outside"
+  ) {
     drawOutside();
-  } else if (location === "forecast") {
+  }
+
+  else if (
+    location === "forecast"
+  ) {
     drawForecast();
-  } else if (location === "mecRoute") {
+  }
+
+  else if (
+    location === "mecRoute"
+  ) {
     drawMecRoute();
-  } else if (location === "mecInside") {
+  }
+
+  else if (
+    location === "mecInside"
+  ) {
     drawMecInside();
-  } else if (location === "mountains") {
+  }
+
+  else if (
+    location === "mountains"
+  ) {
     drawMountainRide();
-  } else if (location === "coastLookout") {
+  }
+
+  else if (
+    location === "coastLookout"
+  ) {
     drawCoastLookout();
-  } else if (location === "kayak") {
+  }
+
+  else if (
+    location === "kayak"
+  ) {
     drawKayakAdventure();
-  } else if (location === "summit") {
+  }
+
+  else if (
+    location === "summit"
+  ) {
     drawSummitAdventure();
-  } else if (location === "paragliding") {
+  }
+
+  else if (
+    location === "paragliding"
+  ) {
     drawParaglidingAdventure();
-  } else if (location === "omidLand") {
+  }
+
+  else if (
+    location === "omidLand"
+  ) {
     drawOmidLand();
-  } else if (location === "omidHome") {
+  }
+
+  else if (
+    location === "omidHome"
+  ) {
     drawOmidHome();
-  } else if (location === "birthdayFinale") {
+  }
+
+  else if (
+    location === "birthdayFinale"
+  ) {
     drawBirthdayFinale();
   }
 
-  // ---------------------------------------------------
+
+  // ===================================================
   // STATUS BAR
-  // ---------------------------------------------------
+  // ===================================================
 
   let status =
     "Talk to the stranger.";
@@ -2774,7 +2923,9 @@ function draw() {
       "Enter Forecast.";
   }
 
-  if (location === "forecast") {
+  if (
+    location === "forecast"
+  ) {
     status =
       "Talk to the barista.";
 
@@ -2789,19 +2940,25 @@ function draw() {
     }
   }
 
-  if (location === "mecRoute") {
+  if (
+    location === "mecRoute"
+  ) {
     status =
       reachedMec
         ? "Ashley is waiting inside MEC!"
         : "Ashley has a surprise! Running to MEC!";
   }
 
-  if (location === "mecInside") {
+  if (
+    location === "mecInside"
+  ) {
     status =
       "Find Ashley and her two brand-new bikes.";
   }
 
-  if (location === "mountains") {
+  if (
+    location === "mountains"
+  ) {
     status =
       riding
         ? "Into the mountains together!"
@@ -2813,39 +2970,53 @@ function draw() {
     }
   }
 
-  if (location === "coastLookout") {
+  if (
+    location === "coastLookout"
+  ) {
     status =
       "Bikes, sea kayaks, mountains, and ocean ❤️";
   }
 
-  if (location === "kayak") {
+  if (
+    location === "kayak"
+  ) {
     status =
       kayaking
-        ? "Sea kayaking with Ashley — Omid is still upright!"
-        : "Adventure on the ocean.";
+        ? "Sea kayaking with Ashley!"
+        : `Omid flip count: ${kayakFlipCount}`;
   }
 
-  if (location === "summit") {
+  if (
+    location === "summit"
+  ) {
     status =
       "Mountain goats, huge views, and a suspiciously convenient paraglider…";
   }
 
-  if (location === "paragliding") {
+  if (
+    location === "paragliding"
+  ) {
     status =
       "Flying toward a mysterious island…";
   }
 
-  if (location === "omidLand") {
+  if (
+    location === "omidLand"
+  ) {
     status =
       "Welcome to Omid Land: plants, computers, coffee, paradise.";
   }
 
-  if (location === "omidHome") {
+  if (
+    location === "omidHome"
+  ) {
     status =
       "One last birthday surprise…";
   }
 
-  if (location === "birthdayFinale") {
+  if (
+    location === "birthdayFinale"
+  ) {
     status =
       "HAPPY BIRTHDAY OMID! ❤️";
   }
@@ -2905,6 +3076,7 @@ function gameLoop(time) {
 
   lastTime = time;
 
+
   // ---------------------------------------------------
   // RUN TO MEC
   // ---------------------------------------------------
@@ -2932,6 +3104,7 @@ function gameLoop(time) {
     }
   }
 
+
   // ---------------------------------------------------
   // BIKE RIDE
   // ---------------------------------------------------
@@ -2940,7 +3113,8 @@ function gameLoop(time) {
     riding &&
     !talking
   ) {
-    rideProgress += seconds;
+    rideProgress +=
+      seconds;
 
     if (
       rideProgress >= 6
@@ -2953,6 +3127,7 @@ function gameLoop(time) {
     }
   }
 
+
   // ---------------------------------------------------
   // SEA KAYAKING
   // ---------------------------------------------------
@@ -2961,7 +3136,8 @@ function gameLoop(time) {
     kayaking &&
     !talking
   ) {
-    kayakProgress += seconds;
+    kayakProgress +=
+      seconds;
 
     if (
       kayakProgress >= 7.5
@@ -2974,6 +3150,7 @@ function gameLoop(time) {
     }
   }
 
+
   // ---------------------------------------------------
   // PARAGLIDING
   // ---------------------------------------------------
@@ -2982,20 +3159,23 @@ function gameLoop(time) {
     paragliding &&
     !talking
   ) {
-    paraglideProgress += seconds;
+    paraglideProgress +=
+      seconds;
 
     if (
       paraglideProgress >= 7
     ) {
       paragliding = false;
 
-      location = "omidLand";
+      location =
+        "omidLand";
 
       showConversation(
         "omidLandArrival"
       );
     }
   }
+
 
   // ---------------------------------------------------
   // NORMAL WALKING
@@ -3048,7 +3228,9 @@ function gameLoop(time) {
         dy
       );
 
-    if (length > 0) {
+    if (
+      length > 0
+    ) {
       player.x +=
         (
           dx /
